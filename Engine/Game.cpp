@@ -160,5 +160,39 @@ void Game::ComposeFrame()
 	v1 = v1 + position;
 	v2 = v2 + position;
 
-	gfx.DrawTriangle(v0, v1, v2, Colors::White );	
+	//gfx.DrawTriangle(v0, v1, v2, Colors::White);
+
+	int x = 0;
+	int y = 0;
+
+	Vec2 e0 = { 100.0f,100.0f };
+	Vec2 e1 = { 200.0f,100.0f };
+
+	Vec2 e = e1 - e0;
+	float eLen = e.Len();
+
+	Color c0 = { 155,155,0 };
+	Color c1 = { 255,0,0 };
+
+	int changeRed   = -(c0.GetR() - c1.GetR());
+	int changeGreen = -(c0.GetG() - c1.GetG());
+	int changeBlue  = -(c0.GetB() - c1.GetB());
+	
+	float incrementRed   = changeRed   / eLen;
+	float incrementGreen = changeGreen / eLen;
+	float incrementBlue  = changeBlue  / eLen;
+	
+
+	for (unsigned int iy = 0; iy < 100; iy++)
+	{
+		for (unsigned int ix = 0; ix < 100; ix++)
+		{
+			Color c = 
+				Color(
+					int(c0.GetR()) + int(incrementRed   * ix),
+					int(c0.GetG()) + int(incrementGreen * ix),
+					int(c0.GetB()) + int(incrementBlue  * ix));
+			gfx.PutPixel(200 + ix, 200 + iy, c);
+		}
+	}
 }
