@@ -166,12 +166,12 @@ void Game::ComposeFrame()
 	int y = 0;
 
 	Vec2 e0 = { 100.0f,100.0f };
-	Vec2 e1 = { 200.0f,100.0f };
+	Vec2 e1 = { 540.0f,100.0f };
 
 	Vec2 e = e1 - e0;
 	float eLen = e.Len();
 
-	Color c0 = { 155,155,0 };
+	Color c0 = { 0,255,0 };
 	Color c1 = { 255,0,0 };
 
 	int changeRed   = -(c0.GetR() - c1.GetR());
@@ -183,16 +183,16 @@ void Game::ComposeFrame()
 	float incrementBlue  = changeBlue  / eLen;
 	
 
-	for (unsigned int iy = 0; iy < 100; iy++)
+	for (unsigned int iy = 0; iy < eLen; iy++)
 	{
-		for (unsigned int ix = 0; ix < 100; ix++)
+		for (unsigned int ix = 0; ix < eLen; ix++)
 		{
 			Color c = 
 				Color(
 					int(c0.GetR()) + int(incrementRed   * ix),
 					int(c0.GetG()) + int(incrementGreen * ix),
 					int(c0.GetB()) + int(incrementBlue  * ix));
-			gfx.PutPixel(200 + ix, 200 + iy, c);
+			gfx.PutPixel(int(e0.x) + ix, int(e0.y) + iy, c);
 		}
 	}
 }
