@@ -21,17 +21,12 @@
 #include "MainWindow.h"
 #include "Game.h"
 
-#include "Vec4.h"
-#include "Mat4.h"
+#include "Mat2.h"
 
 Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
-	gfx(wnd),
-	cube(    1.0f ),
-	hex(     1.0f ),
-	diamond( 1.0f ),
-	plane(   1.0f )
+	gfx(wnd)
 {}
 
 void Game::Go()
@@ -46,460 +41,124 @@ void Game::UpdateModel()
 {
 	// ---------------------------------------
 	// rotation
-
-	// rotate around X
-	if( wnd.kbd.KeyIsPressed( 'E' ) )
-	{
-		angle.x = angle.x - 0.02f;
-	}
-	else if( wnd.kbd.KeyIsPressed( 'D' ) )
-	{
-		angle.x = angle.x + 0.02f;
-	}
-
-	// rotate around Y
-	if( wnd.kbd.KeyIsPressed( 'W' ) )
-	{
-		angle.y = angle.y - 0.02f;
-	}
-	else if( wnd.kbd.KeyIsPressed( 'S' ) )
-	{
-		angle.y = angle.y + 0.02f;
-	}
+	//
+	//// rotate around X
+	//if( wnd.kbd.KeyIsPressed( 'E' ) )
+	//{
+	//	angle.x = angle.x - 0.02f;
+	//}
+	//else if( wnd.kbd.KeyIsPressed( 'D' ) )
+	//{
+	//	angle.x = angle.x + 0.02f;
+	//}
+	//
+	//// rotate around Y
+	//if( wnd.kbd.KeyIsPressed( 'W' ) )
+	//{
+	//	angle.y = angle.y - 0.02f;
+	//}
+	//else if( wnd.kbd.KeyIsPressed( 'S' ) )
+	//{
+	//	angle.y = angle.y + 0.02f;
+	//}
 
 	// rotate around Z
 	if( wnd.kbd.KeyIsPressed( 'Q' ) )
 	{
-		angle.z = angle.z - 0.02f;
+		angle = angle - 0.02f;
 	}
 	else if( wnd.kbd.KeyIsPressed( 'A' ) )
 	{
-		angle.z = angle.z + 0.02f;
+		angle = angle + 0.02f;
 	}
-	
-	//-----------------------------------------
+
 	// scaling 
 	if (wnd.kbd.KeyIsPressed('T'))
 	{
-		scale.z = scale.z - 0.01f;
-		if (scale.z < 0) { scale.z = 0; }
+		scale = scale - 0.01f;
+		if (scale < 0) { scale = 0; }
 	}
 	else if (wnd.kbd.KeyIsPressed('G'))
 	{
-		scale.z = scale.z + 0.01f;
-	}
-
-	if (wnd.kbd.KeyIsPressed('Y'))
-	{
-		scale.y = scale.y - 0.01f;
-		if (scale.y < 0) { scale.y = 0; }
-	}
-	else if (wnd.kbd.KeyIsPressed('H'))
-	{
-		scale.y = scale.y + 0.01f;
-	}
-	if (wnd.kbd.KeyIsPressed('U'))
-	{
-		scale.x = scale.x - 0.01f;
-		if (scale.x < 0) { scale.x = 0; }
-	}
-	else if (wnd.kbd.KeyIsPressed('J'))
-	{
-		scale.x = scale.x + 0.01f;
+		scale = scale + 0.01f;
 	}
 	//-----------------------------------------
-	// translation
-
-	// translate along X axis
-	if (wnd.kbd.KeyIsPressed(VK_LEFT))
-	{
-		position.x = position.x -= 0.02f;
-	}
-	else if (wnd.kbd.KeyIsPressed(VK_RIGHT))
-	{
-		position.x = position.x += 0.02f;
-	}
-
-	// translate along Y axis
-	if (wnd.kbd.KeyIsPressed(VK_UP))
-	{
-		position.y = position.y += 0.02f;
-	}
-	else if (wnd.kbd.KeyIsPressed(VK_DOWN))
-	{
-		position.y = position.y -= 0.02f;
-	}
-
-	// translate along Z axis
-	if( wnd.kbd.KeyIsPressed( 'R' ) )
-	{
-		position.z = position.z += 0.02f;
-	}
-	else if( wnd.kbd.KeyIsPressed( 'F' ) )
-	{
-		position.z = position.z -= 0.02f;
-	}
+	// scaling 
+	//if (wnd.kbd.KeyIsPressed('T'))
+	//{
+	//	scale.z = scale.z - 0.01f;
+	//	if (scale.z < 0) { scale.z = 0; }
+	//}
+	//else if (wnd.kbd.KeyIsPressed('G'))
+	//{
+	//	scale.z = scale.z + 0.01f;
+	//}
+	//
+	//if (wnd.kbd.KeyIsPressed('Y'))
+	//{
+	//	scale.y = scale.y - 0.01f;
+	//	if (scale.y < 0) { scale.y = 0; }
+	//}
+	//else if (wnd.kbd.KeyIsPressed('H'))
+	//{
+	//	scale.y = scale.y + 0.01f;
+	//}
+	//if (wnd.kbd.KeyIsPressed('U'))
+	//{
+	//	scale.x = scale.x - 0.01f;
+	//	if (scale.x < 0) { scale.x = 0; }
+	//}
+	//else if (wnd.kbd.KeyIsPressed('J'))
+	//{
+	//	scale.x = scale.x + 0.01f;
+	//}
+	////-----------------------------------------
+	//// translation
+	//
+	//// translate along X axis
+	//if (wnd.kbd.KeyIsPressed(VK_LEFT))
+	//{
+	//	position.x = position.x -= 0.02f;
+	//}
+	//else if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+	//{
+	//	position.x = position.x += 0.02f;
+	//}
+	//
+	//// translate along Y axis
+	//if (wnd.kbd.KeyIsPressed(VK_UP))
+	//{
+	//	position.y = position.y += 0.02f;
+	//}
+	//else if (wnd.kbd.KeyIsPressed(VK_DOWN))
+	//{
+	//	position.y = position.y -= 0.02f;
+	//}
+	//
+	//// translate along Z axis
+	//if( wnd.kbd.KeyIsPressed( 'R' ) )
+	//{
+	//	position.z = position.z += 0.02f;
+	//}
+	//else if( wnd.kbd.KeyIsPressed( 'F' ) )
+	//{
+	//	position.z = position.z -= 0.02f;
+	//}
 }
 
 void Game::ComposeFrame()
 {
-	// -------------------------------------------------
+	Vec2 v0 = p0;
+	Vec2 v1 = p1;
+	Vec2 v2 = p2;
 
-	const Mat4 Transformation =
-		Mat4::Rotation( angle ) *
-		Mat4::Scaling( scale ) *		
-		Mat4::Translation( position );		
+	v0 = v0 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
+	v1 = v1 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
+	v2 = v2 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
 
-		// for y rotation around a point
-		// replace translation with:
-		//Mat4::Translation(RotateY()) * 
-		//Mat4::Translation(position.x, position.y, position.z + 2.0f);
+	v0 = v0 + position;
+	v1 = v1 + position;
+	v2 = v2 + position;
 
-		// for x,y,z rotation around a point 
-		// replace  translation with:
-		//Mat4::Translation(Rotate()) *
-		//Mat4::Translation(position.x, position.y, position.z + 2.0f);
-	// -------------------------------------------------
-
-	if ( true /* cube */ )
-	{
-		const Color colors[12] = {
-			Colors::Magenta,
-			Colors::Purple,
-			Colors::Pink,
-			Colors::Red,
-			Colors::Blue,
-			Colors::LightBlue,
-			Colors::LightGreen,
-			Colors::Green,
-			Colors::LightGray,
-			Colors::Gray,
-			Colors::Orange,
-			Colors::Yellow };
-		
-		/*const Color colors[12] = {
-			Colors::Magenta,
-			Colors::Magenta,
-			Colors::Red,
-			Colors::Red,
-			Colors::Blue,
-			Colors::Blue,
-			Colors::Green,
-			Colors::Green,
-			Colors::Yellow,
-			Colors::Yellow,
-			Colors::Cyan,
-			Colors::Cyan };*/
-
-		if (true)
-		{
-			auto triangles = cube.GetTriangles();
-
-			for (auto& i : triangles.vertices)
-			{
-				i *= Transformation;
-			}
-
-			// set cullflags
-			for (size_t i = 0, end = triangles.indices.size() / 3;
-				i < end; i++)
-			{
-				const Vec3& v0 = triangles.vertices[triangles.indices[i * 3 + 0]];
-				const Vec3& v1 = triangles.vertices[triangles.indices[i * 3 + 1]];
-				const Vec3& v2 = triangles.vertices[triangles.indices[i * 3 + 2]];
-				triangles.cullflags[i] = ((v1 - v0).Cross(v2 - v0)).Dot(v0) > 0;
-			}
-			
-			for (auto& i : triangles.vertices)
-			{
-				cam.Transform(i);
-			}
-
-			for (size_t i = 0, end = triangles.indices.size() / 3; i < end; i++)
-			{
-				if (!triangles.cullflags[i])
-				{
-					gfx.DrawTriangle(
-						triangles.vertices[triangles.indices[i * 3 + 0]],
-						triangles.vertices[triangles.indices[i * 3 + 1]],
-						triangles.vertices[triangles.indices[i * 3 + 2]],
-						colors[i]);
-				}
-			}
-		}
-
-		// ---------------------------------------------------
-
-		if (false)
-		{
-			auto lines = cube.GetLines();
-
-			for (auto i = lines.vertices.begin(),
-				end = lines.vertices.end();
-				i != end; i++)
-			{
-				*i *= Transformation;
-				cam.Transform(*i);
-			}
-
-			for (auto i = lines.indices.begin(),
-				end = lines.indices.end();
-				i != end; std::advance(i, 2))
-			{
-				gfx.DrawLine(
-					lines.vertices[*i],
-					lines.vertices[*std::next(i)],
-					Colors::Black);
-			}
-		}
-	}
-
-	// -------------------------------------------------
-
-	if ( false /* diamond */ )
-	{
-		const Color colors[8] =	{
-				Colors::Pink,
-				Colors::Red,
-				Colors::LightGreen,
-				Colors::Green,
-				Colors::LightGray,
-				Colors::Gray,
-				Colors::Orange,
-				Colors::Yellow };
-
-		if (true)
-		{	
-			auto triangles = diamond.GetTriangles();
-	
-			for (auto& i : triangles.vertices)
-			{
-				i *= Transformation;
-			}
-	
-			// set cullflags
-			for (size_t i = 0, end = triangles.indices.size() / 3;
-				i < end; i++)
-			{
-				const Vec3& v0 = triangles.vertices[triangles.indices[i * 3 + 0]];
-				const Vec3& v1 = triangles.vertices[triangles.indices[i * 3 + 1]];
-				const Vec3& v2 = triangles.vertices[triangles.indices[i * 3 + 2]];
-				triangles.cullflags[i] = ((v1 - v0).Cross(v2 - v0)).Dot(v0) > 0;
-			}
-	
-			for (auto& i : triangles.vertices)
-			{
-				cam.Transform(i);
-			}
-	
-			for (size_t i = 0, end = triangles.indices.size() / 3; i < end; i++)
-			{
-				if (!triangles.cullflags[i])
-				{
-					gfx.DrawTriangle(
-						triangles.vertices[triangles.indices[i * 3 + 0]],
-						triangles.vertices[triangles.indices[i * 3 + 1]],
-						triangles.vertices[triangles.indices[i * 3 + 2]],
-						colors[i]);
-				}
-			}
-		}
-	
-		if (false)
-		{
-			auto lines = diamond.GetLines();
-	
-			for (auto i = lines.vertices.begin(),
-				end = lines.vertices.end();
-				i != end; i++)
-			{
-				*i *= Transformation;
-				cam.Transform(*i);
-			}
-	
-			for (auto i = lines.indices.begin(),
-				end = lines.indices.end();
-				i != end; std::advance(i, 2))
-			{
-				gfx.DrawLine(
-					lines.vertices[*i],
-					lines.vertices[*std::next(i)],
-					Colors::Black);
-			}
-		}
-	}
-
-	// -------------------------------------------------
-
-	if ( false /* hex prism */ )
-	{	
-		const Color colors[24] = {
-			Colors::Magenta,
-			Colors::Purple,
-			Colors::Pink,
-			Colors::Red,
-			Colors::Blue,
-			Colors::LightBlue,
-			Colors::LightGreen,
-			Colors::Green,
-			Colors::LightGray,
-			Colors::Gray,
-			Colors::Orange,
-			Colors::Yellow,
-			Colors::Magenta,
-			Colors::Purple,
-			Colors::Pink,
-			Colors::Red,
-			Colors::Blue,
-			Colors::LightBlue,
-			Colors::LightGreen,
-			Colors::Green,
-			Colors::LightGray,
-			Colors::Gray,
-			Colors::Orange,
-			Colors::Yellow };
-
-		if (true)
-		{
-			auto triangles = hex.GetTriangles();
-	
-			for (auto& i : triangles.vertices)
-			{
-				i *= Transformation;
-			}
-	
-			// set cullflags
-			for (size_t i = 0, end = triangles.indices.size() / 3;
-				i < end; i++)
-			{
-				const Vec3& v0 = triangles.vertices[triangles.indices[i * 3 + 0]];
-				const Vec3& v1 = triangles.vertices[triangles.indices[i * 3 + 1]];
-				const Vec3& v2 = triangles.vertices[triangles.indices[i * 3 + 2]];
-				triangles.cullflags[i] = ((v1 - v0).Cross(v2 - v0)).Dot(v0) > 0;
-			}
-	
-			for (auto& i : triangles.vertices)
-			{
-				cam.Transform(i);
-			}
-	
-			for (size_t i = 0, end = triangles.indices.size() / 3; i < end; i++)
-			{
-				if (!triangles.cullflags[i])
-				{
-					gfx.DrawTriangle(
-						triangles.vertices[triangles.indices[i * 3 + 0]],
-						triangles.vertices[triangles.indices[i * 3 + 1]],
-						triangles.vertices[triangles.indices[i * 3 + 2]],
-						colors[i]);
-				}
-			}
-		}
-	
-		if (false)
-		{
-			auto lines = hex.GetLines();
-	
-			for (auto i = lines.vertices.begin(),
-				end = lines.vertices.end();
-				i != end; i++)
-			{
-				*i *= Transformation;
-				cam.Transform(*i);
-			}
-	
-			for (auto i = lines.indices.begin(),
-				end = lines.indices.end();
-				i != end; std::advance(i, 2))
-			{
-				gfx.DrawLine(
-					lines.vertices[*i],
-					lines.vertices[*std::next(i)],
-					Colors::White);
-			}
-		}
-	}
-
-	// -------------------------------------------------
-
-	if ( false  /* plane */ )
-	{
-		Color colors[4] = {
-			Colors::Red,
-			Colors::Pink,
-			Colors::Green,
-			Colors::LightGreen };
-
-		if (true)
-		{
-			auto triangles = plane.GetTriangles();
-	
-			for (auto& i : triangles.vertices)
-			{
-				i *= Transformation;
-			}
-	
-			// set cullflags
-			for (size_t i = 0, end = triangles.indices.size() / 3;
-				i < end; i++)
-			{
-				const Vec3& v0 = triangles.vertices[triangles.indices[i * 3 + 0]];
-				const Vec3& v1 = triangles.vertices[triangles.indices[i * 3 + 1]];
-				const Vec3& v2 = triangles.vertices[triangles.indices[i * 3 + 2]];
-				triangles.cullflags[i] = ((v1 - v0).Cross(v2 - v0)).Dot(v0) > 0;
-			}
-	
-			for (auto& i : triangles.vertices)
-			{
-				cam.Transform(i);
-			}
-	
-			for (size_t i = 0, end = triangles.indices.size() / 3; i < end; i++)
-			{
-				if (!triangles.cullflags[i])
-				{
-					gfx.DrawTriangle(
-						triangles.vertices[triangles.indices[i * 3 + 0]],
-						triangles.vertices[triangles.indices[i * 3 + 1]],
-						triangles.vertices[triangles.indices[i * 3 + 2]],
-						colors[i]);
-				}
-			}
-		}
-	
-		if (false)
-		{
-			auto lines = plane.GetLines();
-	
-			for (auto i = lines.vertices.begin(),
-				end = lines.vertices.end();
-				i != end; i++)
-			{
-				*i *= Transformation;
-				cam.Transform(*i);
-			}
-	
-			for (auto i = lines.indices.begin(),
-				end = lines.indices.end();
-				i != end; std::advance(i, 2))
-			{
-				gfx.DrawLine(
-					lines.vertices[*i],
-					lines.vertices[*std::next(i)],
-					Colors::Black);
-			}
-		}
-	}
-	
-	// -------------------------------------------------
-}
-
-Vec4 Game::RotateY()
-{
-	return Vec4( position.x,position.y,position.z,1.0f ) * Mat4::RotationY(angle.y);
-}
-
-Vec4 Game::Rotate()
-{
-	return Vec4(position.x, position.y, position.z, 1.0f) * Mat4::Rotation(angle);
+	gfx.DrawTriangle(v0, v1, v2, Colors::White );	
 }

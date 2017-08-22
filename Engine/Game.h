@@ -23,12 +23,9 @@
 #include "Graphics.h"
 #include "Colors.h"
 
-#include "Cube.h"
-#include "HexPrism.h"
-#include "Diamond.h"
-#include "Plane.h"
-
 #include "CameraTransform.h"
+
+#include "Vec2.h"
 
 class Game
 {
@@ -40,26 +37,24 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
-
-	Vec4 RotateY();
-	Vec4 Rotate();
 private:
 	MainWindow&	wnd;
 	Graphics	gfx;
 
-	Cube		cube;
-	HexPrism	hex;
-	Diamond		diamond;
-	Plane		plane;
-
 	CameraTransform cam;
 
-	Vec3 angle    = Vec3(0.0f, 0.0f, 0.0f);
-	Vec3 scale    = Vec3(1.0f, 1.0f, 1.0f);
-	Vec3 position = Vec3(0.0f, 0.0f, 2.0f);
-	
-	/*float fov = PI / 2.0f;
-	float ratio = Graphics::ScreenWidth / Graphics::ScreenHeight;
-	float nearDist = 1.0f;
-	float farDist = 10.0f;*/
+	const float side = 320.0f;
+	const float sideHalf = side / 2.0f;
+	const float sideSq = sq(side);
+	const float sideHalfSq = sq(sideHalf);
+	const float littleY = sideHalf * tan(PI / 6);
+	const float bigY = sqrt(sideSq - sideHalfSq) - littleY;
+
+	const Vec2 p0 = { -sideHalf, littleY };
+	const Vec2 p1 = { 0.0f, -bigY };
+	const Vec2 p2 = { sideHalf, littleY };
+
+	float angle = 0.0f;
+	float scale = 1.0f;
+	const Vec2 position = { Graphics::ScreenWidth/2, Graphics::ScreenHeight/2 };
 };
