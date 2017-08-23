@@ -27,6 +27,8 @@
 
 #include "Vec2.h"
 
+#include <algorithm>
+
 class Game
 {
 public:
@@ -37,6 +39,8 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
+
+	void DrawTriangleInterpolated(Vec2 p0, Vec2 p1, Vec2 p2, Color c0, Color c1, Color c2);
 private:
 	MainWindow&	wnd;
 	Graphics	gfx;
@@ -57,4 +61,18 @@ private:
 	float angle = 0.0f;
 	float scale = 1.0f;
 	const Vec2 position = { Graphics::ScreenWidth/2, Graphics::ScreenHeight/2 };
+
+	int red0 = 0;
+	int green0 = 0;
+	int blue0 = 0;
+
+	int red1 = 0;
+	int green1 = 0;
+	int blue1 = 0;
+
+	float size = 100.0f;
+	const Vec2 n0 = { -size, -size };
+	const Vec2 n1 = {  size, -size };
+	const Vec2 n2 = {  size,  size };
+	const Vec2 n3 = { -size,  size };
 };
