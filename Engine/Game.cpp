@@ -83,65 +83,74 @@ void Game::UpdateModel()
 		scale = scale + 0.01f;
 	}
 
+	// colors
+
+	int num = 5;
+	// red0
 		 if (wnd.kbd.KeyIsPressed('Q'))
 	{
-		red0++;
+		red0 = red0 + num;
 		if (red0 > 255) { red0 = 255; }
 	}
 	else if (wnd.kbd.KeyIsPressed('A'))
 	{
-		red0--;
+		red0 = red0 - num;
 		if (red0 < 0) { red0 = 0; }
 	}
+	// green0
 		 if (wnd.kbd.KeyIsPressed('W'))
 	{
-		green0++;
+			green0 = green0 + num;
 		if (green0 > 255) { green0 = 255; }
 	}
 	else if (wnd.kbd.KeyIsPressed('S'))
 	{
-		green0--;
+		green0 = green0 - num;
 		if (green0 < 0) { green0 = 0; }
 	}
+	// blue0
 		 if (wnd.kbd.KeyIsPressed('E'))
 	{
-		blue0++;
+		blue0 = blue0 + num;
 		if (blue0 > 255) { blue0 = 255; }
 	}
 	else if (wnd.kbd.KeyIsPressed('D'))
 	{
-		blue0--;
+		blue0 = blue0 - num;
 		if (blue0 < 0) { blue0 = 0; }
 	}
 	
+	// red1
 		 if (wnd.kbd.KeyIsPressed('R'))
 	{
-		red1++;
+			 red1 = red1 + num;
 		if (red1 > 255) { red1 = 255; }
 	}
 	else if (wnd.kbd.KeyIsPressed('F'))
 	{
-		red1--;
+		red1 = red1 - num;
 		if (red1 < 0) { red1 = 0; }
 	}
+	// green1
 		 if (wnd.kbd.KeyIsPressed('T'))
 	{
-		green1++;
+		green1 = green1 + num;
 		if (green1 > 255) { green1 = 255; }
 	}
 	else if (wnd.kbd.KeyIsPressed('G'))
 	{
-		green1--;
+		green1 = green1 - num;
 		if (green1 < 0) { green1 = 0; }
 	}
+	// blue1
 		 if (wnd.kbd.KeyIsPressed('Y'))
 	{
-		blue1++;
+		blue1 = blue1 + num;
 		if (blue1 > 255) { blue1 = 255; }
 	}
 	else if (wnd.kbd.KeyIsPressed('H'))
 	{
-		blue1--;
+		blue1 = blue1 - num;
 		if (blue1 < 0) { blue1 = 0; }
 	}
 
@@ -211,89 +220,81 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	/*Vec2 v0 = p0;
-	Vec2 v1 = p1;
-	Vec2 v2 = p2;
-
-	v0 = v0 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
-	v1 = v1 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
-	v2 = v2 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
-
-	v0 = v0 + position;
-	v1 = v1 + position;
-	v2 = v2 + position;*/
-
-	//gfx.DrawTriangle(v0, v1, v2, Colors::White);
-
-	Vec2 o0 = n0;
-	Vec2 o1 = n1;
-	Vec2 o2 = n2;
-	Vec2 o3 = n3;
-
-	o0 = o0 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
-	o1 = o1 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
-	o2 = o2 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
-	o3 = o3 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
-
-	o0 = o0 + position;
-	o1 = o1 + position;
-	o2 = o2 + position;
-	o3 = o3 + position;
-
-	DrawTriangleInterpolated(o0, o1, o2, Colors::Red, Colors::Green, Colors::Blue);
-	DrawTriangleInterpolated(o0, o2, o3, Colors::Red, Colors::Green, Colors::Blue);
-
-	/*gfx.DrawLine(o0, o1, Colors::White);
-	gfx.DrawLine(o1, o2, Colors::White);
-	gfx.DrawLine(o2, o3, Colors::White);
-	gfx.DrawLine(o3, o0, Colors::White);
-
-	gfx.DrawLine(o0, o2, Colors::White);*/
-
+	if (false)
+	{
+		Vec2 v0 = p0;
+		Vec2 v1 = p1;
+		Vec2 v2 = p2;
+		
+		v0 = v0 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
+		v1 = v1 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
+		v2 = v2 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
+		
+		v0 = v0 + position;
+		v1 = v1 + position;
+		v2 = v2 + position;
+		
+		gfx.DrawTriangle(v0, v1, v2, Colors::White);
+	}
 	
-	// draw a horizontal line from one of two corners of the square
-	// till it intersects with the diagonal line that bisects the
-	// square into two trianlges.
+	if (false)
+	{
+		Vec2 e0 = { 100.0f,100.0f };
+		Vec2 e1 = { 540.0f,540.0f };
+		
+		Color c0 = Color( red0,green0,blue0 );
+		Color c1 = Color( red1,green1,blue1 );
+		
+		DrawTwoColorsInterpolated(e0, e1, c0, c1);
+	}
 
-	// find the slope of the line.
-	/*int x = 0;
-	int y = 0;
+	if (true)
+	{
+		Vec2 o0 = n0;
+		Vec2 o1 = n1;
+		Vec2 o2 = n2;
+		Vec2 o3 = n3;
+		
+		o0 = o0 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
+		o1 = o1 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
+		o2 = o2 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
+		o3 = o3 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
+		
+		o0 = o0 + position;
+		o1 = o1 + position;
+		o2 = o2 + position;
+		o3 = o3 + position;
+		
+		DrawTriangleInterpolated(o0, o1, o2, Colors::Red, Colors::Green, Colors::Blue);
+		DrawTriangleInterpolated(o0, o2, o3, Colors::Red, Colors::Green, Colors::Blue);
+	}
+}
 
-	Vec2 e0 = { 100.0f,100.0f };
-	Vec2 e1 = { 140.0f,100.0f };
-
-	Color c0 = Color( red0,green0,blue0 );
-	Color c1 = Color( red1,green1,blue1 );
-
-	Vec2 e = e1 - e0;
-
-	float xLen = e1.x - e0.x;
-	float yLen = e1.y - e0.y;
-	float xyLen = sqrt(sq(xLen) + sq(yLen));
-	float eLen = xyLen;
-	//float eLen = e.Len();
-
+void Game::DrawTwoColorsInterpolated(const Vec2& p0, const Vec2& p1, Color c0, Color c1)
+{
+	float xLen = p1.x - p0.x;
+	float yLen = p1.y - p0.y;
 
 	int changeRed   = -(c0.GetR() - c1.GetR());
 	int changeGreen = -(c0.GetG() - c1.GetG());
 	int changeBlue  = -(c0.GetB() - c1.GetB());
-	
-	float incrementRed   = changeRed   / eLen;
-	float incrementGreen = changeGreen / eLen;
-	float incrementBlue  = changeBlue  / eLen;	
 
-	for (unsigned int iy = 0; iy < eLen; iy++)
+	float incrementRed   = changeRed   / xLen;
+	float incrementGreen = changeGreen / xLen;
+	float incrementBlue  = changeBlue  / xLen;
+
+	for (unsigned int iy = 0; iy < yLen; iy++)
 	{
-		for (unsigned int ix = 0; ix < eLen; ix++)
+		for (unsigned int ix = 0; ix < xLen; ix++)
 		{
-			Color c = 
-				Color(
-					int(c0.GetR()) + int(incrementRed   * ix),
-					int(c0.GetG()) + int(incrementGreen * ix),
-					int(c0.GetB()) + int(incrementBlue  * ix));
-			gfx.PutPixel(int(e0.x) + ix, int(e0.y) + iy, c);
+			Color c = Color(
+				int(c0.GetR()) + int(incrementRed   * ix),
+				int(c0.GetG()) + int(incrementGreen * ix),
+				int(c0.GetB()) + int(incrementBlue  * ix));
+
+			gfx.PutPixel(int(p0.x) + ix, int(p0.y) + iy, c);
 		}
-	}*/
+	}
 }
 
 void Game::DrawTriangleInterpolated(Vec2 v0, Vec2 v1, Vec2 v2, Color c0, Color c1, Color c2)
