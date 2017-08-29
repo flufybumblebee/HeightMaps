@@ -26,6 +26,7 @@
 #include "CameraTransform.h"
 
 #include "Vec2.h"
+#include "Vec2Color.h"
 
 #include <algorithm>
 
@@ -39,15 +40,24 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
+	void DrawEqualateralTriangle(const float& scale, const float& angle, const Vec2& center, const float& sideSize, const Color& c);
+	void DrawEqualateralTriangleInterpolated(const float& scale, const float& angle, const Vec2& center, const float& sideSize);
 	void DrawTwoColorsInterpolated(const Vec2& p0, const Vec2& p1, Color c0, Color c1);
-	void DrawTriangleInterpolated(Vec2 p0, Vec2 p1, Vec2 p2, Color c0, Color c1, Color c2);
+	void DrawThreeColorsInterpolated(const Vec2& p0, const Vec2& p1, const Vec2& p2, Color c0, Color c1, Color c2);
+	void DrawTriangleInterpolated(const Vec2& v0, const Vec2& v1, const Vec2& v2);
+	void DrawFlatBottomTriangleColor(const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c0, Color c1, Color c2);
+	void DrawFlatTopTriangleColor(const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c0, Color c1, Color c2);
 private:
 	MainWindow&	wnd;
 	Graphics	gfx;
 
 	CameraTransform cam;
 
-	const float side = 320.0f;
+	float angle = 0.0f;
+	float scale = 1.0f;
+	const Vec2 position = { Graphics::ScreenWidth/2, Graphics::ScreenHeight/2 };
+	const float sideSize = 320.0f;
+	const float side = sideSize;
 	const float sideHalf = side / 2.0f;
 	const float sideSq = sq(side);
 	const float sideHalfSq = sq(sideHalf);
@@ -58,9 +68,6 @@ private:
 	const Vec2 p1 = { 0.0f, -bigY };
 	const Vec2 p2 = { sideHalf, littleY };
 
-	float angle = 0.0f;
-	float scale = 1.0f;
-	const Vec2 position = { Graphics::ScreenWidth/2, Graphics::ScreenHeight/2 };
 
 	int red0 = 0;
 	int green0 = 0;
