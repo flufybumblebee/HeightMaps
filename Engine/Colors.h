@@ -25,7 +25,11 @@ class Color
 public:
 	unsigned int dword;
 public:
-	constexpr Color() : dword() {}
+	// Constructors
+	constexpr Color()
+		:
+		dword() 
+	{}
 	constexpr Color( const Color& col )
 		:
 		dword( col.dword )
@@ -46,11 +50,15 @@ public:
 		:
 		Color( (x << 24u) | col.dword )
 	{}
+
+	// Operators
 	Color& operator =( Color color )
 	{
 		dword = color.dword;
 		return *this;
 	}
+
+	// Getters
 	constexpr unsigned char GetX() const
 	{
 		return dword >> 24u;
@@ -71,6 +79,8 @@ public:
 	{
 		return dword & 0xFFu;
 	}
+
+	// Setters
 	void SetX( unsigned char x )
 	{
 		dword = (dword & 0xFFFFFFu) | (x << 24u);
@@ -99,19 +109,19 @@ namespace Colors
 	{
 		return (r << 16) | (g << 8) | b;
 	}
-	static constexpr Color White = MakeRGB( 255u, 255u, 255u );
-	static constexpr Color Black = MakeRGB( 0u,0u,0u );
-	static constexpr Color Gray = MakeRGB( 0x80u,0x80u,0x80u );
-	static constexpr Color LightGray = MakeRGB( 0xD3u,0xD3u,0xD3u );
-	static constexpr Color Red = MakeRGB( 255u,0u,0u );
-	static constexpr Color Green = MakeRGB( 0u,255u,0u );
-	static constexpr Color Blue = MakeRGB( 0u,0u,255u );
-	static constexpr Color Yellow = MakeRGB( 255u,255u,0u );
-	static constexpr Color Cyan = MakeRGB( 0u,255u,255u );
-	static constexpr Color Magenta = MakeRGB( 255u,0u,255u );
-	static constexpr Color LightBlue = MakeRGB(50u, 150u, 255u);
-	static constexpr Color Orange = MakeRGB(255u, 150u, 50u);
-	static constexpr Color LightGreen = MakeRGB(155u, 255u, 155u);
-	static constexpr Color Purple = MakeRGB(155u, 0u, 255u);
-	static constexpr Color Pink = MakeRGB(255u, 105u, 105u);
+	static constexpr Color White		= MakeRGB( 255u, 255u, 255u );
+	static constexpr Color Black		= MakeRGB( 0u,0u,0u );
+	static constexpr Color Gray			= MakeRGB( 0x80u,0x80u,0x80u );
+	static constexpr Color LightGray	= MakeRGB( 0xD3u,0xD3u,0xD3u );
+	static constexpr Color Red			= MakeRGB( 255u,0u,0u );
+	static constexpr Color Green		= MakeRGB( 0u,255u,0u );
+	static constexpr Color Blue			= MakeRGB( 0u,0u,255u );
+	static constexpr Color Yellow		= MakeRGB( 255u,255u,0u );
+	static constexpr Color Cyan			= MakeRGB( 0u,255u,255u );
+	static constexpr Color Magenta		= MakeRGB( 255u,0u,255u );
+	static constexpr Color LightBlue	= MakeRGB(50u, 150u, 255u);
+	static constexpr Color Orange		= MakeRGB(255u, 150u, 50u);
+	static constexpr Color LightGreen	= MakeRGB(155u, 255u, 155u);
+	static constexpr Color Purple		= MakeRGB(155u, 0u, 255u);
+	static constexpr Color Pink			= MakeRGB(255u, 105u, 105u);
 }

@@ -220,17 +220,17 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	if (false /*rotatable and scalable equalateral triangle*/ )
+	if (false /*rotatable and scalable equalateral triangle*/)
 	{
 		DrawEqualateralTriangle(scale, angle, position, sideSize, Colors::White);
 	}
-	
+
 	if (false /*rotatable and scalable equalateral triangle made from an interpolated triangle*/)
 	{
 		DrawEqualateralTriangleInterpolated(scale, angle, position, sideSize);
 	}
 
-	if (true /*rotatable and scalable equalateral triangle with interpolated colors*/)
+	if (false /*rotatable and scalable equalateral triangle with interpolated colors*/)
 	{
 		Vec2 v0 = p0;
 		Vec2 v1 = p1;
@@ -251,8 +251,8 @@ void Game::ComposeFrame()
 	{
 		Vec2 e0 = { 100.0f,100.0f };
 		Vec2 e1 = { 540.0f,540.0f };
-		
-		DrawTwoColorsInterpolated(e0, e1, Color( red0, green0, blue0 ), Color(red1, green1, blue1));
+
+		DrawTwoColorsInterpolated(e0, e1, Color(red0, green0, blue0), Color(red1, green1, blue1));
 	}
 
 	if (false /*rotatable and scalable square made from two interpolated triangles*/)
@@ -261,22 +261,311 @@ void Game::ComposeFrame()
 		Vec2 o1 = n1;
 		Vec2 o2 = n2;
 		Vec2 o3 = n3;
-		
+
 		o0 = o0 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
 		o1 = o1 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
 		o2 = o2 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
 		o3 = o3 * Mat2::Rotation(angle) * Mat2::Scaling(scale);
-		
+
 		o0 = o0 + position;
 		o1 = o1 + position;
 		o2 = o2 + position;
 		o3 = o3 + position;
-		
+
 		DrawTriangleInterpolated(o0, o1, o2);
 		DrawTriangleInterpolated(o0, o2, o3);
 	}
+
+	// flat bottom triangle
+
+	if (true)
+	{
+		const Vec2 V0 = { 0.0f, -200.0f };
+		const Vec2 V1 = { -200.0f, 200.0f };
+		const Vec2 V2 = { 200.0f,  200.0f };
+
+		const Vec2 trans = { 320.0f, 320.0f };
+
+		Vec2 A = V0;
+		Vec2 B = V1;
+		Vec2 C = V2;
+
+		A = A * Mat2::Rotation(angle);
+		B = B * Mat2::Rotation(angle);
+		C = C * Mat2::Rotation(angle);
+
+		A = A + trans;
+		B = B + trans;
+		C = C + trans;
+
+		DrawFlatBottomTri(A, B, C);
+		//DrawFlatTopTri(A, B, C);
+
+		Color c = Colors::Green;
+		gfx.DrawLine(A.x, A.y, B.x, B.y, c);
+		gfx.DrawLine(A.x, A.y, C.x, C.y, c);
+		gfx.DrawLine(B.x, B.y, C.x, C.y, c);
+	}
+
+	if( false )
+	{
+		Color c0 = Colors::Red;
+		Color c1 = Colors::Blue;
+		Color c2 = Colors::Blue;
+		Color c3 = Colors::Green;
+
+		const Vec2 V0 = { -200.0f, -200.0f };
+		const Vec2 V1 = {  200.0f, -200.0f };
+		const Vec2 V2 = {  200.0f,  200.0f };
+		const Vec2 V3 = { -200.0f,  200.0f };
+
+		const Vec2 trans = { 320.0f, 320.0f };
+
+		Vec2 A = V0;
+		Vec2 B = V1;
+		Vec2 C = V2;
+		Vec2 D = V3;
+
+		A = A * Mat2::Rotation(angle);
+		B = B * Mat2::Rotation(angle);
+		C = C * Mat2::Rotation(angle);
+		D = D * Mat2::Rotation(angle);
+
+		A = A + trans;
+		B = B + trans;
+		C = C + trans;
+		D = D + trans;
+
+		float lenAB = (A - B).Len();
+		float lenBC = (B - C).Len();
+		float lenCD = (C - D).Len();
+		float lenDA = (D - A).Len();
+
+		float   redChangeAB = float(c0.GetR() - c1.GetR());
+		float greenChangeAB = float(c0.GetG() - c1.GetG());
+		float  blueChangeAB = float(c0.GetB() - c1.GetB());
+
+		float   redIncrementAB =   redChangeAB / lenAB;
+		float greenIncrementAB = greenChangeAB / lenAB;
+		float  blueIncrementAB =  blueChangeAB / lenAB;
+
+		for (int y = (int)A.y; y < (int)D.y; y++)
+		{
+			for (int x = (int)A.x; x < (int)B.x; x++)
+			{
+				unsigned char red   = c0.GetR() + unsigned char((x - A.x) *   redIncrementAB);
+				unsigned char green = c0.GetG() + unsigned char((x - A.x) * greenIncrementAB);
+				unsigned char blue  = c0.GetB() + unsigned char((x - A.x) *  blueIncrementAB);
+				Color c = Color(red, green, blue);
+				gfx.PutPixel(x, y, c);
+			}
+		}
+
+		Color c = Colors::Green;
+		gfx.DrawLine(A.x, A.y, B.x, B.y, c);
+		gfx.DrawLine(B.x, B.y, C.x, C.y, c);
+		gfx.DrawLine(C.x, C.y, D.x, D.y, c);
+		gfx.DrawLine(D.x, D.y, A.x, A.y, c);
+	}
 }
 
+void Game::DrawFlatBottomTri(const Vec2& A, const Vec2& B, const Vec2& C)
+{
+	float sizeABY = abs(A.y - B.y);
+	float sizeABX = abs(A.x - B.x);
+	float slopeAB = sizeABX / sizeABY;
+
+	float sizeACY = abs(A.y - C.y);
+	float sizeACX = abs(A.x - C.x);
+	float slopeAC = sizeACX / sizeACY;
+	
+	// color stuff --------------------------------------
+
+	Color c0 = Color(255, 0, 0);
+	Color c1 = Color(0, 255, 0);
+	Color c2 = Color(0, 0, 255);
+
+	// AB
+	float redChangeAB   = -(float(c0.GetR() - c1.GetR()));
+	float greenChangeAB = -(float(c0.GetG() - c1.GetG()));
+	float blueChangeAB  = -(float(c0.GetB() - c1.GetB()));
+	float redIncrementAB;
+	float greenIncrementAB;
+	float blueIncrementAB;
+
+	float sizeAB = (B - A).Len();
+	redIncrementAB   = redChangeAB   / sizeAB;
+	greenIncrementAB = greenChangeAB / sizeAB;
+	blueIncrementAB  = blueChangeAB  / sizeAB;
+
+	// AC
+	float redChangeAC   = -(float(c0.GetR() - c2.GetR()));
+	float greenChangeAC = -(float(c0.GetG() - c2.GetG()));
+	float blueChangeAC  = -(float(c0.GetB() - c2.GetB()));
+	float redIncrementAC;
+	float greenIncrementAC;
+	float blueIncrementAC;
+	
+	float sizeAC = (C - A).Len();
+	redIncrementAC   = redChangeAC   / sizeAC;
+	greenIncrementAC = greenChangeAC / sizeAC;
+	blueIncrementAC  = blueChangeAC  / sizeAC;
+
+	//-----------------------------------------------------
+	
+	int yStart = (int)A.y;
+	int yEnd;
+	
+	if (B.y <= C.y) { yEnd = (int)B.y; }
+	else            { yEnd = (int)C.y; }
+
+	for (int y = yStart; y < yEnd; y++)
+	{
+		int xStart;
+		int xEnd;
+
+		if (B.x > A.x){	xStart = int(A.x + ((y - yStart) * slopeAB) + 0.5f); }
+		else		  {	xStart = int(A.x - ((y - yStart) * slopeAB) + 0.5f); }
+		
+		if (C.x > A.x){	xEnd   = int(A.x + ((y - yStart) * slopeAC) + 0.5f); }
+		else 		  {	xEnd   = int(A.x - ((y - yStart) * slopeAC) + 0.5f); }
+
+		// color stuff ------------------------------------------------
+
+		float lengthBC = float(xEnd - xStart);
+		float lengthAB = sqrt(sq(A.x - xStart) + sq(y - A.y));
+		float lengthAC = sqrt(sq(A.x - xEnd)   + sq(y - A.y));
+
+		//float redStart = 
+		//float redEnd   = 
+		float redChange			= -((c0.GetR() + (lengthAB * redIncrementAB))   - (c0.GetR() + (lengthAC * redIncrementAC)));
+		float greenChange		= -((c0.GetG() + (lengthAB * greenIncrementAB)) - (c0.GetG() + (lengthAC * greenIncrementAC)));
+		float blueChange		= -((c0.GetB() + (lengthAB * blueIncrementAB))  - (c0.GetB() + (lengthAC * blueIncrementAC)));
+
+		float redIncrement		= redChange   / lengthBC;
+		float greenIncrement	= greenChange / lengthBC;
+		float blueIncrement		= blueChange  / lengthBC;
+
+		// -----------------------------------------------
+
+		for (int x = xStart; x < xEnd; x++)
+		{
+			// color stuff -----------------------------------------			
+
+			unsigned char redStart   = c0.GetR() + unsigned char(lengthAB * redIncrementAB);
+			unsigned char greenStart = c0.GetG() + unsigned char(lengthAB * greenIncrementAB);
+			unsigned char blueStart  = c0.GetB() + unsigned char(lengthAB * blueIncrementAB);
+			unsigned char red   = redStart   + unsigned char((x - xStart) * redIncrement);
+			unsigned char green = greenStart + unsigned char((x - xStart) * greenIncrement);
+			unsigned char blue  = blueStart  + unsigned char((x - xStart) * blueIncrement);
+
+			Color c = Color( red, green, blue );
+
+			// -----------------------------------
+
+			gfx.PutPixel(x, y, c);
+		}
+	}
+}
+
+void Game::DrawFlatTopTri(const Vec2& A, const Vec2& B, const Vec2& C)
+{
+	float sizeABY = abs(A.y - B.y);
+	float sizeABX = abs(A.x - B.x);
+	float slopeAB = sizeABX / sizeABY;
+
+	float sizeACY = abs(A.y - C.y);
+	float sizeACX = abs(A.x - C.x);
+	float slopeAC = sizeACX / sizeACY;
+
+	// color stuff --------------------------------------
+
+	Color c0 = Color(255, 0, 0);
+	Color c1 = Color(0, 255, 0);
+	Color c2 = Color(0, 0, 255);
+
+	// AB
+	float redChangeAB = -(float(c0.GetR() - c1.GetR()));
+	float greenChangeAB = -(float(c0.GetG() - c1.GetG()));
+	float blueChangeAB = -(float(c0.GetB() - c1.GetB()));
+	float redIncrementAB;
+	float greenIncrementAB;
+	float blueIncrementAB;
+
+	float sizeAB = (B - A).Len();
+	  redIncrementAB =   redChangeAB / sizeAB;
+	greenIncrementAB = greenChangeAB / sizeAB;
+	 blueIncrementAB =  blueChangeAB / sizeAB;
+
+	// AC
+	float redChangeAC = -(float(c0.GetR() - c2.GetR()));
+	float greenChangeAC = -(float(c0.GetG() - c2.GetG()));
+	float blueChangeAC = -(float(c0.GetB() - c2.GetB()));
+	float redIncrementAC;
+	float greenIncrementAC;
+	float blueIncrementAC;
+
+	float sizeAC = (C - A).Len();
+	redIncrementAC = redChangeAC / sizeAC;
+	greenIncrementAC = greenChangeAC / sizeAC;
+	blueIncrementAC = blueChangeAC / sizeAC;
+
+	//-----------------------------------------------------
+
+	int yStart = (int)A.y;
+	int yEnd;
+
+	if (B.y <= C.y) { yEnd = (int)B.y; }
+	else { yEnd = (int)C.y; }
+
+	for (int y = yStart; y < yEnd; y++)
+	{
+		int xStart;
+		int xEnd;
+
+		if (B.x > A.x) { xStart = int(A.x + ((y - yStart) * slopeAB) + 0.5f); }
+		else { xStart = int(A.x - ((y - yStart) * slopeAB) + 0.5f); }
+
+		if (C.x > A.x) { xEnd = int(A.x + ((y - yStart) * slopeAC) + 0.5f); }
+		else { xEnd = int(A.x - ((y - yStart) * slopeAC) + 0.5f); }
+
+		// color stuff ------------------------------------------------
+
+		float lengthBC = float(xEnd - xStart);
+		float lengthAB = sqrt(sq(A.x - xStart) + sq(y - A.y));
+		float lengthAC = sqrt(sq(A.x - xEnd) + sq(y - A.y));
+
+		//float redStart = 
+		//float redEnd   = 
+		float redChange = -((c0.GetR() + (lengthAB * redIncrementAB)) - (c0.GetR() + (lengthAC * redIncrementAC)));
+		float greenChange = -((c0.GetG() + (lengthAB * greenIncrementAB)) - (c0.GetG() + (lengthAC * greenIncrementAC)));
+		float blueChange = -((c0.GetB() + (lengthAB * blueIncrementAB)) - (c0.GetB() + (lengthAC * blueIncrementAC)));
+
+		float redIncrement = redChange / lengthBC;
+		float greenIncrement = greenChange / lengthBC;
+		float blueIncrement = blueChange / lengthBC;
+
+		// -----------------------------------------------
+
+		for (int x = xStart; x < xEnd; x++)
+		{
+			// color stuff -----------------------------------------			
+
+			unsigned char redStart = c0.GetR() + unsigned char(lengthAB * redIncrementAB);
+			unsigned char greenStart = c0.GetG() + unsigned char(lengthAB * greenIncrementAB);
+			unsigned char blueStart = c0.GetB() + unsigned char(lengthAB * blueIncrementAB);
+			unsigned char red = redStart + unsigned char((x - xStart) * redIncrement);
+			unsigned char green = greenStart + unsigned char((x - xStart) * greenIncrement);
+			unsigned char blue = blueStart + unsigned char((x - xStart) * blueIncrement);
+
+			Color c = Color(red, green, blue);
+
+			// -----------------------------------
+
+			gfx.PutPixel(x, y, c);
+		}
+	}
+}
 
 void Game::DrawEqualateralTriangle( const float& scale, const float& angle, const Vec2& center, const float& sideSize, const Color& c)
 {
@@ -392,7 +681,7 @@ void Game::DrawThreeColorsInterpolated(const Vec2& v0, const Vec2& v1, const Vec
 			float incrementGreenB = changeGreenB / lenB;
 			float incrementBlueB = changeBlueB / lenB;
 
-			Color c = Color(incrementRedB * vi.Len(), incrementGreenB * vi.Len(), incrementBlueB * vi.Len());
+			Color c = Colors::White; // Color(incrementRedB * vi.Len(), incrementGreenB * vi.Len(), incrementBlueB * vi.Len());
 
 			DrawFlatBottomTriangleColor(*pv0, *pv1, vi, c0, c1, c);
 			// flat top triangle
@@ -517,9 +806,9 @@ void Game::DrawFlatBottomTriangleColor(const Vec2& v0, const Vec2& v1, const Vec
 
 	const float lengthA = (v1 - v0).Len();
 
-	const float changeRedA   = -(c0.GetR() - c1.GetR());
-	const float changeGreenA = -(c0.GetG() - c1.GetG());
-	const float changeBlueA  = -(c0.GetB() - c1.GetB());
+	const float changeRedA   = float(-(c0.GetR() - c1.GetR()));
+	const float changeGreenA = float(-(c0.GetG() - c1.GetG()));
+	const float changeBlueA  = float(-(c0.GetB() - c1.GetB()));
 
 	const float incrementRedA   = changeRedA   / lengthA;
 	const float incrementGreenA = changeGreenA / lengthA;
@@ -527,9 +816,9 @@ void Game::DrawFlatBottomTriangleColor(const Vec2& v0, const Vec2& v1, const Vec
 
 	const float lengthB = (v2 - v0).Len();
 
-	const float changeRedB   = -(c0.GetR() - c2.GetR());
-	const float changeGreenB = -(c0.GetG() - c2.GetG());
-	const float changeBlueB  = -(c0.GetB() - c2.GetB());
+	const float changeRedB   = float(-(c0.GetR() - c2.GetR()));
+	const float changeGreenB = float(-(c0.GetG() - c2.GetG()));
+	const float changeBlueB  = float(-(c0.GetB() - c2.GetB()));
 
 	const float incrementRedB   = changeRedB   / lengthB;
 	const float incrementGreenB = changeGreenB / lengthB;
@@ -546,20 +835,20 @@ void Game::DrawFlatBottomTriangleColor(const Vec2& v0, const Vec2& v1, const Vec
 		const int xEnd   = int(ceil(px1 - 0.5f));
 
 		// find color change by finding length of line then magic
-		const Color cA = Color(c0.GetR() + (incrementRedA * y), c0.GetG() + (incrementGreenA * y), c0.GetB() + (incrementBlueA * y));
-		const Color cB = Color(c1.GetR() + (incrementRedB * y), c1.GetG() + (incrementGreenB * y), c1.GetB() + (incrementBlueB * y));
+		//const Color cA = Color(c0.GetR() + (incrementRedA * y), c0.GetG() + (incrementGreenA * y), c0.GetB() + (incrementBlueA * y));
+		//const Color cB = Color(c1.GetR() + (incrementRedB * y), c1.GetG() + (incrementGreenB * y), c1.GetB() + (incrementBlueB * y));
 		
 		// total line length to interpolate color across
-		float xLength = xEnd - xStart;
+		int xLength = xEnd - xStart;
 		
 		int incrementRed = 1;
 		int incrementGreen = 1;
 		int incrementBlue = 1;
 
-		for (int x = xStart, int i = 0; x < xEnd; x++, i++ )
+		for (int x = xStart, i = 0; x < xEnd; x++, i++ )
 		{
-			Color c = Color(ci0.GetR() + (incrementRed * i), ci0.GetG() + (incrementGreen * i), ci0.GetB() + (incrementBlue * i));
-			gfx.PutPixel(x, y, c);
+			//Color c = Color(ci0.GetR() + (incrementRed * i), ci0.GetG() + (incrementGreen * i), ci0.GetB() + (incrementBlue * i));
+			gfx.PutPixel(x, y, Colors::Cyan);
 		}
 	}
 }

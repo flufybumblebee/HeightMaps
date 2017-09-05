@@ -47,6 +47,8 @@ private:
 	void DrawTriangleInterpolated(const Vec2& v0, const Vec2& v1, const Vec2& v2);
 	void DrawFlatBottomTriangleColor(const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c0, Color c1, Color c2);
 	void DrawFlatTopTriangleColor(const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c0, Color c1, Color c2);
+	void DrawFlatBottomTri(const Vec2& A, const Vec2& B, const Vec2& C);
+	void DrawFlatTopTri(const Vec2& A, const Vec2& B, const Vec2& C);
 private:
 	MainWindow&	wnd;
 	Graphics	gfx;
@@ -67,8 +69,7 @@ private:
 	const Vec2 p0 = { -sideHalf, littleY };
 	const Vec2 p1 = { 0.0f, -bigY };
 	const Vec2 p2 = { sideHalf, littleY };
-
-
+	
 	int red0 = 0;
 	int green0 = 0;
 	int blue0 = 0;
@@ -82,4 +83,6 @@ private:
 	const Vec2 n1 = {  size, -size };
 	const Vec2 n2 = {  size,  size };
 	const Vec2 n3 = { -size,  size };
+
+	
 };
