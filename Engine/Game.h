@@ -40,15 +40,19 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
+
+	void DrawTwoColorsInterpolated(const Vec2& p0, const Vec2& p1, Color c0, Color c1);
+
 	void DrawEqualateralTriangle(const float& scale, const float& angle, const Vec2& center, const float& sideSize, const Color& c);
 	void DrawEqualateralTriangleInterpolated(const float& scale, const float& angle, const Vec2& center, const float& sideSize);
-	void DrawTwoColorsInterpolated(const Vec2& p0, const Vec2& p1, Color c0, Color c1);
-	void DrawThreeColorsInterpolated(const Vec2& p0, const Vec2& p1, const Vec2& p2, Color c0, Color c1, Color c2);
+		
 	void DrawTriangleInterpolated(const Vec2& v0, const Vec2& v1, const Vec2& v2);
 	void DrawFlatBottomTriangleColor(const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c0, Color c1, Color c2);
 	void DrawFlatTopTriangleColor(const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c0, Color c1, Color c2);
-	void DrawFlatBottomTri(const Vec2& A, const Vec2& B, const Vec2& C);
-	void DrawFlatTopTri(const Vec2& A, const Vec2& B, const Vec2& C);
+	
+	void DrawTriangleThreeColor(const Vec2Color& p0, const Vec2Color& p1, const Vec2Color& p2);
+	void DrawFlatBottomTriangleThreeColor(const Vec2Color& A, const Vec2Color& B, const Vec2Color& C);
+	void DrawFlatTopTriangleThreeColor(const Vec2Color& A, const Vec2Color& B, const Vec2Color& C);
 private:
 	MainWindow&	wnd;
 	Graphics	gfx;
@@ -84,5 +88,7 @@ private:
 	const Vec2 n2 = {  size,  size };
 	const Vec2 n3 = { -size,  size };
 
-	
+	const Color color0 = Color(255, 0, 0);
+	const Color color1 = Color(0, 255, 0);
+	const Color color2 = Color(0, 0, 255);
 };
