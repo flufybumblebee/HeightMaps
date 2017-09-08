@@ -220,7 +220,7 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	if (true /*rotatable and scalable equalateral triangle*/)
+	if (false /*rotatable and scalable equalateral triangle*/)
 	{
 		DrawEqualateralTriangle(scale, angle, position, sideSize, Colors::White);
 	}
@@ -259,7 +259,7 @@ void Game::ComposeFrame()
 		DrawTriangleInterpolated(o0, o2, o3);
 	}
 
-	if (false /* interpolating 3 colors with a triangle that is rotatable and scalable*/)
+	if (true /* interpolating 3 colors with a triangle that is rotatable and scalable*/)
 	{
 		Vec2Color A, B, C;				
 
@@ -287,13 +287,13 @@ void Game::ComposeFrame()
 		Vec2Color D, E, F;
 
 		D.v = Vec2(p1.x, p1.y + p0.y);
-		D.c = Colors::Magenta;
+		D.c = Colors::Yellow;
 
 		E.v = Vec2(p0.x, p1.y + p1.y);
-		E.c = Colors::Yellow;
+		E.c = Colors::Cyan;
 
 		F.v = Vec2(p2.x, p1.y + p0.y);
-		F.c = Colors::Cyan;
+		F.c = Colors::Magenta;
 
 		D.v = D.v * Mat2::Scaling(scale) * Mat2::Rotation(angle);
 		E.v = E.v * Mat2::Scaling(scale) * Mat2::Rotation(angle);
@@ -312,7 +312,7 @@ void Game::ComposeFrame()
 		Vec2Color center;
 
 		center.v = { 0.0f,0.0f };
-		center.c = Color( 127, 127, 127 );
+		center.c = Colors::White;
 
 		center.v += position;
 
@@ -322,11 +322,6 @@ void Game::ComposeFrame()
 		DrawTriangleThreeColor(E, C, center);
 		DrawTriangleThreeColor(C, F, center);
 		DrawTriangleThreeColor(F, A, center);
-
-		//Color c = Colors::Green;
-		//gfx.DrawLine(A.x, A.y, B.x, B.y, c);
-		//gfx.DrawLine(A.x, A.y, C.x, C.y, c);
-		//gfx.DrawLine(B.x, B.y, C.x, C.y, c);
 	}
 }
 
