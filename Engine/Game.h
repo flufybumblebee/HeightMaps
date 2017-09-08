@@ -70,9 +70,9 @@ private:
 	const float littleY = sideHalf * tan(PI / 6);
 	const float bigY = sqrt(sideSq - sideHalfSq) - littleY;
 
-	const Vec2 p0 = { -sideHalf, littleY };
-	const Vec2 p1 = { 0.0f, -bigY };
-	const Vec2 p2 = { sideHalf, littleY };
+	const Vec2 p0 = { 0.0f, -bigY };
+	const Vec2 p1 = { sideHalf, littleY };
+	const Vec2 p2 = { -sideHalf, littleY };
 	
 	int red0 = 0;
 	int green0 = 0;
