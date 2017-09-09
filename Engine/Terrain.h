@@ -79,5 +79,5 @@ private:
 	std::vector<Vec4> vertices;
 	std::vector<size_t> indices;
 
-	Surface image = Surface::FromFile(L"HeightMapTerrain.jpg");
+	Surface image = Surface::FromFile(L"HeightMapTerrain2.jpg");
 };
