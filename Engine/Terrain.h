@@ -79,12 +79,9 @@ private:
 	std::vector<Vec4> vertices;
 	std::vector<size_t> indices;
 
-	Surface image = Surface::FromFile(L"HeightMapTerrain.jpg");
+	Surface image = Surface::FromFile(L"HeightMap.bmp");
 	// HeightMapTerrain.jpg is the best map so far for showing it working well
 	// other maps include:
-	// HeightMapTerrain2.jpg - which looks terrible
-	// HeightMapBrittain.png - looks good but ideally needs a larger grid
-	// HeightMapSphere.gif   - looks bad
-	// not sure how i managed to spell the island i live in wrong
-	// i am made of fail. i blame dyslexia
+	// HeightMap.bmp - my own height map
+	// HeightMapBritain.png - looks good but ideally needs a larger grid
 };
